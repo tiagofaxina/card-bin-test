@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  bin-test:
+    container_name: bin-test
+    build: .
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 5000:5000
