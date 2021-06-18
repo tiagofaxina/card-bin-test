@@ -14,7 +14,9 @@ import pandas as pd
 xlsx = pd.ExcelFile('data/master-bins.xlsx')
 df = pd.read_excel('data/master-bins.xlsx', 'master-bins')
 
-account_ranges = df[['ACCOUNT_RANGE_FROM', 'ACCOUNT_RANGE_TO']]
+brl_rows = df.loc[df['COUNTRY'] == 'BRA']
+
+account_ranges = brl_rows[['ACCOUNT_RANGE_FROM', 'ACCOUNT_RANGE_TO']]
 
 
 start_total = time()
