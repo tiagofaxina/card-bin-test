@@ -1,5 +1,5 @@
-flask==2.0.1
 numpy>=1.19.5,<2
 pandas>=1.2.1,<2
 joblib
 openpyxl
+cupy113
