@@ -1,13 +1,8 @@
-from re import match
+from re import compile, match
 from time import time
 import numpy as np
 import cupy as cp
 import pandas as pd
-
-# mempool = cp.get_default_memory_pool()
-
-# with cp.cuda.Device(0):
-#     mempool.set_limit(size=8*1024**3)  # 2 GiB
 
 df = pd.read_excel('data/master-bins.xlsx', 'master-bins')
 brl_rows = df.loc[df['COUNTRY'] == 'BRA']
@@ -19,9 +14,9 @@ start_total = time()
 binsMatched = cp.array([])
 binsNotMatched = cp.array([])
 
-master_pattern = r"^(5[1-5]|2[2-7])"
-
 current_row = 0
+
+master_pattern = compile(r"^(5[1-5]|2[2-7])")
 
 for label, row in account_ranges.iterrows():
   start = time()
@@ -32,7 +27,7 @@ for label, row in account_ranges.iterrows():
       binsNotMatched = cp.append(binsNotMatched, card_bin)
     else:
       binsMatched = cp.append(binsMatched, card_bin)
-      
+
   print("CURRENT ROW") 
   current_row += 1
   print(current_row) 
