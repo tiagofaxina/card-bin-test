@@ -1,4 +1,4 @@
-import re
+from re import match
 from time import time
 import numpy as np
 import cupy as cp
@@ -25,13 +25,14 @@ current_row = 0
 
 for label, row in account_ranges.iterrows():
   start = time()
-  intervals_range = cp.arange(row['ACCOUNT_RANGE_FROM'], row['ACCOUNT_RANGE_TO'], dtype='int64')
+  intervals_range = cp.arange(row['ACCOUNT_RANGE_FROM'], row['ACCOUNT_RANGE_TO'] + 1, dtype='int64')
   print(intervals_range) 
   for card_bin in intervals_range:
-    if re.match(master_pattern, str(card_bin)):
-      binsMatched = cp.append(binsMatched, card_bin)
-    else:
+    if match(master_pattern, str(card_bin)) is None:
       binsNotMatched = cp.append(binsNotMatched, card_bin)
+    else:
+      binsMatched = cp.append(binsMatched, card_bin)
+      
   print("CURRENT ROW") 
   current_row += 1
   print(current_row) 
