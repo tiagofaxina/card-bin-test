@@ -8,7 +8,7 @@ start_total = time()
 
 df = pd.read_excel('data/binlist-data.xlsx', 'binlist-data')
 
-brl_discover_rows_df = df.loc[(df['alpha_3'] == 'BRA') & (df['brand'] == 'DISCOVER')]
+brl_discover_rows_df = df.loc[(df['brand'] == 'DISCOVER')]
 
 brl_discover_bins_df = brl_discover_rows_df['bin']
 
