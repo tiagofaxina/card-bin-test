@@ -11,10 +11,10 @@ account_ranges = brl_rows[['ACCOUNT_RANGE_FROM', 'ACCOUNT_RANGE_TO']]
 
 start_total = time()
 
-binsMatched = cp.array([])
-binsNotMatched = cp.array([])
-
 current_row = 0
+
+file_object_ok = open('results/master/master_ok.txt', 'a')
+file_object_invalid = open('results/master/master_invalid.txt', 'a')
 
 master_pattern = compile(r"^(5[1-5]|2[2-7])")
 
@@ -24,9 +24,11 @@ for label, row in account_ranges.iterrows():
   print(intervals_range) 
   for card_bin in intervals_range:
     if match(master_pattern, str(card_bin)) is None:
-      binsNotMatched = cp.append(binsNotMatched, card_bin)
+      file_object_invalid.write(str(card_bin))
+      file_object_invalid.write("\n")
     else:
-      binsMatched = cp.append(binsMatched, card_bin)
+      file_object_ok.write(str(card_bin))
+      file_object_ok.write("\n")
 
   print("CURRENT ROW") 
   current_row += 1
@@ -37,3 +39,6 @@ for label, row in account_ranges.iterrows():
 
 end_total = time()
 print(end_total - start_total)
+
+file_object_ok.close()
+file_object_invalid.close()

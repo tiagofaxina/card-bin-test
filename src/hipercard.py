@@ -15,26 +15,18 @@ brl_hipercard_bins_df = brl_hipercard_rows_df['bin']
 
 brl_hipercard_bins = np.array(brl_hipercard_bins_df, dtype='int64')
 
-binsMatched = cp.array([])
-binsNotMatched = cp.array([])
+file_object_invalid = open('results/hipercard/hipercard_invalid.txt', 'a')
 
 # hipercard_pattern = compile(r"^(606282)|(3841)")
 hipercard_pattern = compile(r"^((606282)|(3841)|(637095)|(637612)|(637599)|(637609)|(637568))")
 
-for bin_number in brl_hipercard_bins:
+for card_bin in brl_hipercard_bins:
   start = time()
-  if match(hipercard_pattern, str(bin_number)) is None:
-    binsNotMatched = cp.append(binsNotMatched, bin_number)
-  else:
-    binsMatched = cp.append(binsMatched, bin_number)
-
-print('binsNotMatched') 
-print(binsNotMatched) 
-print(len(binsNotMatched)) 
-
-print('binsMatched') 
-print(binsMatched) 
-print(len(binsMatched))
+  if match(hipercard_pattern, str(card_bin)) is None:
+    file_object_invalid.write(str(card_bin))
+    file_object_invalid.write("\n")
 
 end_total = time()
 print(end_total - start_total)
+
+file_object_invalid.close()

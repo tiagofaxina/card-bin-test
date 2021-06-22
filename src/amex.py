@@ -14,25 +14,17 @@ brl_amex_bins_df = brl_amex_rows_df['bin']
 
 brl_amex_bins = np.array(brl_amex_bins_df, dtype='int64')
 
-binsMatched = cp.array([])
-binsNotMatched = cp.array([])
+file_object_invalid = open('results/amex/amex_invalid.txt', 'a')
 
 amex_pattern = compile(r"^3[47]")
 
-for bin_number in brl_amex_bins:
+for card_bin in brl_amex_bins:
   start = time()
-  if match(amex_pattern, str(bin_number)) is None:
-    binsNotMatched = cp.append(binsNotMatched, bin_number)
-  else:
-    binsMatched = cp.append(binsMatched, bin_number)
-
-print('binsNotMatched') 
-print(binsNotMatched) 
-print(len(binsNotMatched)) 
-
-print('binsMatched') 
-print(binsMatched) 
-print(len(binsMatched))
+  if match(amex_pattern, str(card_bin)) is None:
+    file_object_invalid.write(str(card_bin))
+    file_object_invalid.write("\n")
 
 end_total = time()
 print(end_total - start_total)
+
+file_object_invalid.close()
